@@ -102,3 +102,26 @@ window.onload = function() {
     document.getElementById("userDisplay").innerText = user;
   }
 }
+function toggleChat(){
+  let box = document.getElementById("chatbox");
+  box.style.display = box.style.display === "block" ? "none" : "block";
+}
+
+function chat(e){
+  if(e.key === "Enter"){
+    let input = document.getElementById("chatInput").value;
+    let msgBox = document.getElementById("chatMessages");
+
+    msgBox.innerHTML += `<p><b>You:</b> ${input}</p>`;
+
+    let reply = "দুঃখিত, বুঝতে পারিনি 🤖";
+
+    if(input.includes("price")) reply = "সব প্রোডাক্ট 300-500৳ এর মধ্যে";
+    if(input.includes("order")) reply = "আপনি cart থেকে অর্ডার করতে পারবেন";
+    if(input.includes("delivery")) reply = "ডেলিভারি চার্জ 60৳";
+
+    msgBox.innerHTML += `<p><b>Bot:</b> ${reply}</p>`;
+
+    document.getElementById("chatInput").value = "";
+  }
+}
