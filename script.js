@@ -1,131 +1,125 @@
-let products = [
-  {name: "Pant", price: 500},
-  {name: "Shirt", price: 400},
-  {name: "T-Shirt", price: 300}
-];
+document.addEventListener("DOMContentLoaded", function () {
 
-let cart = [];
-let orders = [];
+  let products = [
+    {name: "Pant", price: 500},
+    {name: "Shirt", price: 400},
+    {name: "T-Shirt", price: 300}
+  ];
 
-/* Show Products */
-function displayProducts(list = products) {
-  let container = document.getElementById("productList");
-  container.innerHTML = "";
+  let cart = [];
+  let orders = [];
 
-  list.forEach((p, i) => {
-    container.innerHTML += `
-      <div class="product">
-        <h3>${p.name}</h3>
-        <p>৳${p.price}</p>
-        <button onclick="addToCart(${i})">Add to Cart</button>
-      </div>
-    `;
-  });
-}
+  function displayProducts(list = products) {
+    let container = document.getElementById("productList");
+    if(!container) return;
 
-/* Search */
-function filterProducts() {
-  let text = document.getElementById("searchInput").value.toLowerCase();
-  let filtered = products.filter(p => p.name.toLowerCase().includes(text));
-  displayProducts(filtered);
-}
+    container.innerHTML = "";
 
-/* Cart */
-function addToCart(i) {
-  cart.push(products[i]);
-  document.getElementById("cartCount").innerText = cart.length;
-}
+    list.forEach((p, i) => {
+      container.innerHTML += `
+        <div class="product">
+          <h3>${p.name}</h3>
+          <p>৳${p.price}</p>
+          <button onclick="addToCart(${i})">Add</button>
+        </div>
+      `;
+    });
+  }
 
-function showCart() {
-  document.getElementById("cartModal").style.display = "block";
-  let list = document.getElementById("cartItems");
-  let total = 0;
-  list.innerHTML = "";
+  window.filterProducts = function() {
+    let text = document.getElementById("searchInput").value.toLowerCase();
+    let filtered = products.filter(p => p.name.toLowerCase().includes(text));
+    displayProducts(filtered);
+  }
 
-  cart.forEach(item => {
-    total += item.price;
-    list.innerHTML += `<li>${item.name} - ৳${item.price}</li>`;
-  });
+  window.addToCart = function(i) {
+    cart.push(products[i]);
+    document.getElementById("cartCount").innerText = cart.length;
+  }
 
-  document.getElementById("cartTotal").innerText = total;
-}
+  window.showCart = function() {
+    document.getElementById("cartModal").style.display = "block";
+    let list = document.getElementById("cartItems");
+    let total = 0;
+    list.innerHTML = "";
 
-function hideCart() {
-  document.getElementById("cartModal").style.display = "none";
-}
+    cart.forEach(item => {
+      total += item.price;
+      list.innerHTML += `<li>${item.name} - ৳${item.price}</li>`;
+    });
 
-/* Checkout */
-function checkout() {
-  orders.push([...cart]);
-  cart = [];
-  document.getElementById("cartCount").innerText = 0;
-  alert("অর্ডার সম্পন্ন!");
-  hideCart();
-}
+    document.getElementById("cartTotal").innerText = total;
+  }
 
-/* Orders */
-function showOrders() {
-  document.getElementById("orderModal").style.display = "block";
-  let list = document.getElementById("orderList");
-  list.innerHTML = "";
+  window.hideCart = function() {
+    document.getElementById("cartModal").style.display = "none";
+  }
 
-  orders.forEach((order, i) => {
-    list.innerHTML += `<li>Order ${i+1} (${order.length} items)</li>`;
-  });
-}
+  window.checkout = function() {
+    orders.push([...cart]);
+    cart = [];
+    document.getElementById("cartCount").innerText = 0;
+    alert("অর্ডার সম্পন্ন!");
+    hideCart();
+  }
 
-function hideOrders() {
-  document.getElementById("orderModal").style.display = "none";
-}
+  window.showOrders = function() {
+    document.getElementById("orderModal").style.display = "block";
+    let list = document.getElementById("orderList");
+    list.innerHTML = "";
 
-/* Login */
-function toggleLogin() {
-  document.getElementById("loginModal").style.display = "block";
-}
+    orders.forEach((order, i) => {
+      list.innerHTML += `<li>Order ${i+1} (${order.length} items)</li>`;
+    });
+  }
 
-function hideLogin() {
-  document.getElementById("loginModal").style.display = "none";
-}
+  window.hideOrders = function() {
+    document.getElementById("orderModal").style.display = "none";
+  }
 
-function login() {
-  let name = document.getElementById("username").value;
-  localStorage.setItem("user", name);
-  document.getElementById("userDisplay").innerText = name;
-  hideLogin();
-}
+  window.toggleLogin = function() {
+    document.getElementById("loginModal").style.display = "block";
+  }
 
-/* Load + Start */
-window.onload = function() {
+  window.hideLogin = function() {
+    document.getElementById("loginModal").style.display = "none";
+  }
+
+  window.login = function() {
+    let name = document.getElementById("username").value;
+    localStorage.setItem("user", name);
+    document.getElementById("userDisplay").innerText = name;
+    hideLogin();
+  }
+
+  window.toggleChat = function(){
+    let box = document.getElementById("chatbox");
+    box.style.display = box.style.display === "block" ? "none" : "block";
+  }
+
+  window.chat = function(e){
+    if(e.key === "Enter"){
+      let input = document.getElementById("chatInput").value;
+      let msgBox = document.getElementById("chatMessages");
+
+      msgBox.innerHTML += `<p><b>You:</b> ${input}</p>`;
+
+      let reply = "দুঃখিত 🤖";
+
+      if(input.includes("price")) reply = "300-500৳";
+      if(input.includes("order")) reply = "Cart থেকে অর্ডার করুন";
+      if(input.includes("delivery")) reply = "Delivery 60৳";
+
+      msgBox.innerHTML += `<p><b>Bot:</b> ${reply}</p>`;
+      document.getElementById("chatInput").value = "";
+    }
+  }
+
+  // ✅ load everything
   let user = localStorage.getItem("user");
   if(user){
     document.getElementById("userDisplay").innerText = user;
   }
 
-  displayProducts(); // 🔥 important
-}
-
-/* Chatbot */
-function toggleChat(){
-  let box = document.getElementById("chatbox");
-  box.style.display = box.style.display === "block" ? "none" : "block";
-}
-
-function chat(e){
-  if(e.key === "Enter"){
-    let input = document.getElementById("chatInput").value;
-    let msgBox = document.getElementById("chatMessages");
-
-    msgBox.innerHTML += `<p><b>You:</b> ${input}</p>`;
-
-    let reply = "দুঃখিত, বুঝতে পারিনি 🤖";
-
-    if(input.includes("price")) reply = "সব প্রোডাক্ট 300-500৳ এর মধ্যে";
-    if(input.includes("order")) reply = "আপনি cart থেকে অর্ডার করতে পারবেন";
-    if(input.includes("delivery")) reply = "ডেলিভারি চার্জ 60৳";
-
-    msgBox.innerHTML += `<p><b>Bot:</b> ${reply}</p>`;
-
-    document.getElementById("chatInput").value = "";
-  }
-}
-displayProducts();
+  displayProducts();
+});
