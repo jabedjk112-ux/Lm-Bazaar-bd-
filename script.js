@@ -128,3 +128,4 @@ function chat(e){
     document.getElementById("chatInput").value = "";
   }
 }
+displayProducts();
