@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -5,26 +6,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LM Bazar BD</title>
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
-  <!-- Header -->
   <header>
     <h1>🛒 LM Bazar BD</h1>
-
     <div class="header-icons">
-      <span onclick="showOrders()">📦</span>
-      <span onclick="showCart()">🛒 <span id="cartCount">0</span></span>
-      <span id="userDisplay" onclick="toggleLogin()">👤</span>
+      <span onclick="showOrders()" title="অর্ডার সমূহ">📦</span>
+      <span onclick="showCart()" title="কার্ট">🛒 <span id="cartCount">0</span></span>
+      <span id="userDisplay" onclick="toggleLogin()" title="প্রোফাইল">👤</span>
     </div>
   </header>
 
-  <!-- Login Modal -->
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="🔍 পণ্য খুঁজুন..." onkeyup="filterProducts()" />
+  </div>
+
+  <main id="productList" class="product-grid"></main>
+
   <div id="loginModal" class="modal">
     <div class="modal-content small">
       <h2>🔐 লগইন / রেজিস্ট্রেশন</h2>
@@ -34,28 +37,16 @@
     </div>
   </div>
 
-  <!-- Search -->
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="🔍 পণ্য খুঁজুন..." onkeyup="filterProducts()" />
-  </div>
-
-  <!-- Product List -->
-  <div id="productList" class="product-grid"></div>
-
-  <!-- Cart Modal -->
   <div id="cartModal" class="modal">
     <div class="modal-content">
       <h2>🛒 আপনার কার্ট</h2>
       <ul id="cartItems"></ul>
-
       <p><strong>মোট:</strong> ৳<span id="cartTotal">0</span></p>
-
       <button onclick="checkout()">✅ অর্ডার করুন</button>
       <button class="close-btn" onclick="hideCart()">বন্ধ করুন</button>
     </div>
   </div>
 
-  <!-- Order History -->
   <div id="orderModal" class="modal">
     <div class="modal-content">
       <h2>📦 অর্ডার হিস্টোরি</h2>
@@ -64,25 +55,18 @@
     </div>
   </div>
 
-  <!-- Footer -->
+  <div id="chatbot">
+    <button onclick="toggleChat()" class="chat-toggle-btn">💬</button>
+    <div id="chatbox" style="display:none;">
+      <div id="chatMessages"></div>
+      <input type="text" id="chatInput" placeholder="কিছু জিজ্ঞাসা করুন..." onkeydown="if(event.key==='Enter') chat(event)" />
+    </div>
+  </div>
+
   <footer>
     <p>© 2026 LM Bazar BD | Made with ❤️ by LM</p>
   </footer>
 
   <script src="script.js"></script>
-<script src="script.js"></script>
-
-<!-- Chatbot -->
-<div id="chatbot">
-  <button onclick="toggleChat()">💬</button>
-
-  <div id="chatbox">
-    <div id="chatMessages"></div>
-    <input type="text" id="chatInput" placeholder="Ask..." onkeydown="chat(event)" />
-  </div>
-</div>
-
-</body>
-</html>
 </body>
 </html>
