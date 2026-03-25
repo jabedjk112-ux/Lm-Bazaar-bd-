@@ -23,8 +23,6 @@ function displayProducts(list = products) {
   });
 }
 
-displayProducts();
-
 /* Search */
 function filterProducts() {
   let text = document.getElementById("searchInput").value.toLowerCase();
@@ -60,6 +58,7 @@ function hideCart() {
 function checkout() {
   orders.push([...cart]);
   cart = [];
+  document.getElementById("cartCount").innerText = 0;
   alert("অর্ডার সম্পন্ন!");
   hideCart();
 }
@@ -95,13 +94,17 @@ function login() {
   hideLogin();
 }
 
-/* Load user */
+/* Load + Start */
 window.onload = function() {
   let user = localStorage.getItem("user");
   if(user){
     document.getElementById("userDisplay").innerText = user;
   }
+
+  displayProducts(); // 🔥 important
 }
+
+/* Chatbot */
 function toggleChat(){
   let box = document.getElementById("chatbox");
   box.style.display = box.style.display === "block" ? "none" : "block";
